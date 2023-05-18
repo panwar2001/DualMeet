@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Peer from "peerjs";
 import {useRouter} from "next/router";
+import Loader from './Loader';
 /** Import Section End **/
 
 const DualMeet=()=>{
@@ -154,7 +155,7 @@ useEffect(() => {
 
 /** Conditional Section Begin **/
   if(status=='loading'){
-    return <>Loading ...</>;
+    return <Loader/>
   }
   if(startMeeting){
   return <>
