@@ -36,26 +36,29 @@ const DualMeet=({join})=>{
  /** Inline css Section Begin **/
 
 const styleCamera={
-  height:'10%',
-  width:'10%',
   borderRadius:'50%',
   backgroundColor:videoPlaying?'transparent':'red',
   color:'black',
-  marginLeft:'10%'
 }
 const styleMicrophone={
-    height:'10%',
-    width:'10%',
-    marginLeft:'12%',
     borderRadius:'50%',
     backgroundColor:audioPlaying?'transparent':'red',
 }
 const styleEndCall={
-    height:'11%',
-    width:'4.8%',
-    marginLeft:'24%',
     borderRadius:'50%',
     backgroundColor:'white'
+}
+const styleFooterButtons={
+  display:'flex',
+  position:'absolute',
+  justifyContent:'center',
+  bottom:'0',
+  width:'100%',
+  backgroundColor:'black',
+}
+const meetPageStyle={
+  backgroundColor:'black',
+  height:'100vh'
 }
  /** Inline css Section Begin **/
 
@@ -63,7 +66,10 @@ const styleEndCall={
 
 const getVideoMedia = async () => {
   try {
-    const localStream = await navigator.mediaDevices.getUserMedia({ video: true,audio:true});
+    const localStream = await navigator.mediaDevices.getUserMedia({ audio:true, video: {
+      width: { min: 1024, ideal: 1280, max: 1920 },
+      height: { min: 576, ideal: 720, max: 1080 },
+    },});
     setStream(localStream);
     localVideoRef.current.srcObject=localStream;
   } catch (error) {
@@ -159,51 +165,69 @@ useEffect(() => {
     return <Loader/>
   }
   if(startMeeting){
-  return <>
-    <div style={{backgroundColor:'black',height:'100vh'}}>
-        <video ref={localVideoRef} autoPlay muted className="video1" />
-        {!videoPlaying&&<Image src={userImage} height={150} width={150} style={{borderRadius:'50%',marginLeft:'33%',marginTop:'-18%',transform: 'translate(-50%, -50%)',backgroundColor:'white'}} alt="User image"/>}
+  return <div style={meetPageStyle} >
+    <div className='localVideo'>
+        <video ref={localVideoRef} autoPlay muted className="video1"/>
+    </div>
+    
+    {/* <div >
+    {!videoPlaying&&<Image src={userImage} height={150} width={150} style={{borderRadius:'50%',marginLeft:'33%',marginTop:'-18%',transform: 'translate(-50%, -50%)',backgroundColor:'white'}} alt="User image"/>}
         {videoPlaying&&<Image src={userImage} height={150} width={150} style={{borderRadius:'50%',marginLeft:'33%',marginTop:'-18%',backgroundColor:'white'}} alt="User image"/>}
         <div className="posVideo2">
        <video ref={remoteVideoRef} autoPlay muted className="video2"/>
-        <div style={{display:'flex',position:'absolute',bottom:'0px'}}>
-          <div style={styleCamera}>
-       <button onClick={() => setVideoPlaying(videoPlaying^true)} >
+       </div>
+      </div> */}
+
+
+      <div style={styleFooterButtons}>
+        <div className="operate">
+       <button onClick={() => setVideoPlaying(videoPlaying^true)} style={styleCamera}  >
            <Image src={videoPlaying?cameraON:cameraOFF} alt="Web cam svg" width={50} height={50}/>
         </button>
-        </div>
+        </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div className='operate'>
         <button onClick={() => setAudioPlaying(audioPlaying^true)} style={styleMicrophone}>
            <Image src={audioPlaying?microphoneOn:microphoneOff} alt="Microphone svg" width={50} height={50}/>   
         </button> 
+        </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div className='operate'>
         <button  style={styleEndCall}>
            <Image src={endCall} onClick={()=>handleDisconnect()} alt="End call svg" width={50} height={50}/>   
         </button>
         </div>
-       </div>
+        </div>
+
+
         <style jsx>
         {`
             video {
               transform: scaleX(-1);
             }
             .video1{
-              height:77.5vh;
-              width:46vw;
-              margin-left:10%;
-              margin-top:2%;
-              background-color:black;
+               background-color:black;
+               position:relative;
+               display:flex;
+               height:80vh;
+               width:100vw; 
+               background-color:black;
             }
-            .video2{
-              width:30%;
-              height:30%;
-              background-color:black;
+            .localVideo{
+             display:flex;
+             position:absolute;
+             bottom:100px;
             }
             .posVideo2{
                padding-left:60%;
             }
+            .operate{
+              padding-left:0%;
+            }
+            button{
+              cursor:pointer
+            }
           `}
         </style>
-      </div>
-    </>
+    </div>
   }
   /** Conditional rendering Section End **/
     return (<>
