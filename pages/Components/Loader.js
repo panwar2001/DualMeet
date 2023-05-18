@@ -1,6 +1,5 @@
-const Loader=({Display=true})=>{
+const Loader=()=>{
     const spinStyle={
-    display:Display,
     width:'100px',
     height:'100px',
     border: '16px solid #f3f3f3',
@@ -8,7 +7,11 @@ const Loader=({Display=true})=>{
     borderTop: '16px solid #3498db',
     animation: 'spin .5s linear infinite'
     }
-    return <>
+    const positionLoader={
+      paddingLeft:'43%',
+      paddingTop:'10%'
+    }
+    return <div style={positionLoader}>
     <div style={spinStyle} ></div>
     <style jsx>{`
     @keyframes spin {
@@ -16,6 +19,6 @@ const Loader=({Display=true})=>{
       100% { transform: rotate(360deg); }
     }
     `}</style>
-    </>
+    </div>
     }
     export default Loader;

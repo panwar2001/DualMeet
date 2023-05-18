@@ -6,9 +6,14 @@ import Image from 'next/image';
 import Peer from "peerjs";
 import {useRouter} from "next/router";
 import Loader from './Loader';
+import cameraOFF from '../svg/cameraOFF.svg';
+import cameraON from '../svg/cameraON.svg';
+import microphoneOn from '../svg/microphoneOn.svg';
+import microphoneOff from '../svg/microphoneOff.svg';
+import endCall from '../svg/endCall.svg';
 /** Import Section End **/
 
-const DualMeet=()=>{
+const DualMeet=({join})=>{
   /** Declaration Section Begin **/
 
   const [startMeeting,setStartMeeting]=useState(false);
@@ -25,35 +30,30 @@ const DualMeet=()=>{
   const userImage=session?.user?session.user.image:'/person.svg';
  /** Declaration Section End **/
 
+ /**SVG SECTION begin**/
+ /**SVG SECTION End**/
 
  /** Inline css Section Begin **/
 
 const styleCamera={
-  position:'absolute',
-  marginTop:'-5%',
   height:'10%',
-  width:'5%',
-  left:'18%',
+  width:'10%',
   borderRadius:'50%',
   backgroundColor:videoPlaying?'transparent':'red',
-  color:'red'
+  color:'black',
+  marginLeft:'10%'
 }
 const styleMicrophone={
-    position:'absolute',
-    marginTop:'-5%',
     height:'10%',
-    width:'5%',
-    left:'18%',
-    marginLeft:'10%',
+    width:'10%',
+    marginLeft:'12%',
     borderRadius:'50%',
     backgroundColor:audioPlaying?'transparent':'red',
 }
 const styleEndCall={
-    position:'absolute',
     height:'11%',
     width:'4.8%',
-    left:'18%',
-    marginLeft:'20%',
+    marginLeft:'24%',
     borderRadius:'50%',
     backgroundColor:'white'
 }
@@ -126,6 +126,7 @@ const joinMeeting=()=>{
 
 const handleJoin=()=>{
     name.trim()!==''?setStartMeeting(true):alert('Please Enter your name');
+    join?joinMeeting():createMeeting();
  }
  const handleDisconnect=()=>{
   if(stream){
@@ -153,7 +154,7 @@ useEffect(() => {
 
 /** UseEffect Section End **/
 
-/** Conditional Section Begin **/
+/** Conditional rendering Section Begin **/
   if(status=='loading'){
     return <Loader/>
   }
@@ -165,23 +166,19 @@ useEffect(() => {
         {videoPlaying&&<Image src={userImage} height={150} width={150} style={{borderRadius:'50%',marginLeft:'33%',marginTop:'-18%',backgroundColor:'white'}} alt="User image"/>}
         <div className="posVideo2">
        <video ref={remoteVideoRef} autoPlay muted className="video2"/>
-       <div>
-       <button onClick={() => setVideoPlaying(videoPlaying^true)} style={styleCamera}>
-           <Image src={videoPlaying?'webcam/cameraON.svg':'webcam/cameraOFF.svg'} alt="Web cam svg" width={50} height={50}/>
+        <div style={{display:'flex',position:'absolute',bottom:'0px'}}>
+          <div style={styleCamera}>
+       <button onClick={() => setVideoPlaying(videoPlaying^true)} >
+           <Image src={videoPlaying?cameraON:cameraOFF} alt="Web cam svg" width={50} height={50}/>
         </button>
+        </div>
         <button onClick={() => setAudioPlaying(audioPlaying^true)} style={styleMicrophone}>
-           <Image src={audioPlaying?'microphone/microphoneOn.svg':'microphone/microphoneOff.svg'} alt="Microphone svg" width={50} height={50}/>   
+           <Image src={audioPlaying?microphoneOn:microphoneOff} alt="Microphone svg" width={50} height={50}/>   
         </button> 
         <button  style={styleEndCall}>
-           <Image src={'endCall.svg'} onClick={()=>handleDisconnect()} alt="End call svg" width={50} height={50}/>   
+           <Image src={endCall} onClick={()=>handleDisconnect()} alt="End call svg" width={50} height={50}/>   
         </button>
-        <button onClick={()=>createMeeting()}>
-          create
-        </button>
-        <button onClick={()=>joinMeeting()}>
-          join
-        </button>
-        </div> 
+        </div>
        </div>
         <style jsx>
         {`
@@ -208,7 +205,7 @@ useEffect(() => {
       </div>
     </>
   }
-  /** Conditional Section End **/
+  /** Conditional rendering Section End **/
     return (<>
     <NavigationBar email={session?.user?.email} image={session?.user?.image}/>
     <div style={{display:'flex'}}>
@@ -217,10 +214,10 @@ useEffect(() => {
       <video ref={localVideoRef} autoPlay muted />
       </div>
       <button onClick={() => setVideoPlaying(videoPlaying^true)} style={styleCamera}>
-         <Image src={videoPlaying?'webcam/cameraON.svg':'webcam/cameraOFF.svg'} alt="Web cam svg" width={50} height={50}/>
+         <Image src={videoPlaying?cameraON:cameraOFF} alt="Web cam svg" width={50} height={50}/>
       </button>
       <button onClick={() => setAudioPlaying(audioPlaying^true)} style={styleMicrophone}>
-         <Image src={audioPlaying?'microphone/microphoneOn.svg':'microphone/microphoneOff.svg'} alt="Microphone svg" width={50} height={50}/>   
+         <Image src={audioPlaying?microphoneOn:microphoneOff} alt="Microphone svg" width={50} height={50}/>   
       </button> 
       <style jsx> {`
       video{
