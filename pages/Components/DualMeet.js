@@ -13,7 +13,7 @@ import microphoneOff from '../svg/microphoneOff.svg';
 import endCall from '../svg/endCall.svg';
 /** Import Section End **/
 
-const DualMeet=({join})=>{
+const DualMeet=({join,meetId})=>{
   /** Declaration Section Begin **/
 
   const [startMeeting,setStartMeeting]=useState(false);
@@ -25,7 +25,6 @@ const DualMeet=({join})=>{
   const localVideoRef = useRef();
   const remoteVideoRef= useRef();
   const router=useRouter();
-  const meetingId=router.pathname;
   const userImage=session?.user?session.user.image:'/person.svg';
  /** Declaration Section End **/
 
