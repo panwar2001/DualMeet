@@ -7,6 +7,7 @@ const headerRowAlign={
     backgroundColor:'black'
 }
 const auth={
+    position:'absolute',
     right:'0',
 }    
 return (<div style={headerRowAlign}>
