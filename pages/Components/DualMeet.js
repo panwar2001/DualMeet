@@ -19,7 +19,6 @@ const DualMeet=({join})=>{
   const [startMeeting,setStartMeeting]=useState(false);
   const [name,setName]=useState('');
   const { data: session, status } = useSession();
-  const styleJoin={height:'4%',backgroundColor:'#1a73e8',color:'#fff',fontWeight:'bold',cursor:'pointer',fontSize:'1em'};
   const [stream, setStream] = useState(null);
   const [videoPlaying, setVideoPlaying] = useState(true);
   const [audioPlaying,setAudioPlaying] = useState(true);
@@ -60,7 +59,24 @@ const meetPageStyle={
   backgroundColor:'black',
   height:'100vh'
 }
- /** Inline css Section Begin **/
+const userImageStyle={
+  borderRadius:'50%',
+  position:'absolute',
+  left:'40%',
+  top:'20%',
+  height:'20%',
+  width:'auto'
+}
+const styleJoin={
+  height:'4%',
+  backgroundColor:'#1a73e8',
+  color:'#fff',
+  fontWeight:'bold',
+  cursor:'pointer',
+  fontSize:'1em'
+};
+
+ /** Inline css Section End **/
 
  /** Functions Section Begin **/
 
@@ -168,17 +184,11 @@ useEffect(() => {
   return <div style={meetPageStyle} >
     <div className='localVideo'>
         <video ref={localVideoRef} autoPlay muted className="video1"/>
-    </div>
-    
-    {/* <div >
-    {!videoPlaying&&<Image src={userImage} height={150} width={150} style={{borderRadius:'50%',marginLeft:'33%',marginTop:'-18%',transform: 'translate(-50%, -50%)',backgroundColor:'white'}} alt="User image"/>}
-        {videoPlaying&&<Image src={userImage} height={150} width={150} style={{borderRadius:'50%',marginLeft:'33%',marginTop:'-18%',backgroundColor:'white'}} alt="User image"/>}
-        <div className="posVideo2">
-       <video ref={remoteVideoRef} autoPlay muted className="video2"/>
-       </div>
-      </div> */}
-
-
+       {!videoPlaying&&<Image src={userImage} height={150} width={150} style={userImageStyle} alt="User image"/>}
+    </div>    
+       <div className="posVideo2">
+ <video ref={remoteVideoRef} autoPlay muted className="video2"/>
+   </div>
       <div style={styleFooterButtons}>
         <div className="operate">
        <button onClick={() => setVideoPlaying(videoPlaying^true)} style={styleCamera}  >
@@ -202,28 +212,37 @@ useEffect(() => {
         {`
             video {
               transform: scaleX(-1);
+              background-color:black;
             }
             .video1{
-               background-color:black;
                position:relative;
                display:flex;
                height:80vh;
-               width:100vw; 
-               background-color:black;
+               width:60vw;
+            }
+            .video2{
+              position:relative;
+              display:flex;
+              height:16vh;
+              width:13vw;
             }
             .localVideo{
              display:flex;
              position:absolute;
              bottom:100px;
+             transform:translate(29%);
             }
             .posVideo2{
-               padding-left:60%;
-            }
+              display:flex;
+              position:absolute;
+              bottom:100px;
+              transform:translate(29%);
+             }
             .operate{
               padding-left:0%;
             }
             button{
-              cursor:pointer
+              cursor:pointer;
             }
           `}
         </style>
@@ -246,7 +265,6 @@ useEffect(() => {
       <style jsx> {`
       video{
           transform:scaleX(-1);
-          background-color:black;
           height:77.5vh;
           width:46vw;
         }
