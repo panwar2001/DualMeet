@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import Login from "./GoogleAuth.js/Login";
-import Logout from './GoogleAuth.js/logout';
-const Header=({isAuth})=>{
+import Login from "../GoogleAuth.js/Login";
+import Logout from '../GoogleAuth.js/logout';
+const NavigationHome=({isAuth})=>{
 const headerRowAlign={
     display:'flex',
     backgroundColor:'black'
@@ -56,4 +56,4 @@ return (<div style={headerRowAlign}>
 </div>);
 };
 
-export default Header;
+export default NavigationHome;

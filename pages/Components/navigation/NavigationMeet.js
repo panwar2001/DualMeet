@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import Login from "./GoogleAuth.js/Login";
-import Logout from './GoogleAuth.js/logout';
- const NavigationBar = ({email,image}) => {
+import Login from "../GoogleAuth.js/Login";
+import Logout from '../GoogleAuth.js/logout';
+ const NavigationMeet = ({email,image}) => {
     const css = {
         display: 'flex',
         backgroundColor: 'black',
@@ -30,4 +30,4 @@ import Logout from './GoogleAuth.js/logout';
         </div>
     </div>);
 }
-export default NavigationBar;
+export default NavigationMeet;

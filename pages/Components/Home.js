@@ -1,4 +1,4 @@
-import Header from './Header'
+import Header from './navigation/NavigationHome'
 import BrandFootage from './BrandFootage'
 import Banner from './Banner';
 import Image from 'next/image';
