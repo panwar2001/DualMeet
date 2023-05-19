@@ -1,9 +1,7 @@
 /** Import Section Begin **/
 import { useRef, useState, useEffect } from 'react';
-import NavigationBar  from "./NavigationBar";
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import Peer from "peerjs";
 import {useRouter} from "next/router";
 import Loader from './Loader';
 import cameraOFF from '../svg/cameraOFF.svg';
@@ -11,6 +9,9 @@ import cameraON from '../svg/cameraON.svg';
 import microphoneOn from '../svg/microphoneOn.svg';
 import microphoneOff from '../svg/microphoneOff.svg';
 import endCall from '../svg/endCall.svg';
+import NavigationMeet from './navigation/NavigationMeet';
+//import Peer from "peerjs";
+
 /** Import Section End **/
 
 const DualMeet=({join,meetId})=>{
@@ -116,15 +117,18 @@ const startVideoMedia=()=>{
   localVideoRef.current.srcObject=stream;
 }
 const stopVideoMedia=()=>{
+  import('peerjs').then(({ default: Peer }) => {
   if(!stream)return;
   stream.getVideoTracks().forEach((track) => {
     track.enabled=false;
   });
   if(localVideoRef.current)
   localVideoRef.current.srcObject=stream;
+});
 }
 
 const createMeeting=()=>{
+  import('peerjs').then(({ default: Peer }) => {
   const peer=new Peer('panwar2001'); 
   peer.on('open', (id) => {
     console.log("Peer Connected with ID: ", id)
@@ -135,6 +139,8 @@ peer.on('call', (call) => {
         remoteVideoRef.current.srcObject=remoteStream;
     })  
 })
+  });
+
 }
 const joinMeeting=()=>{
   const peer=new Peer();
@@ -255,7 +261,7 @@ useEffect(() => {
   }
   /** Conditional rendering Section End **/
     return (<>
-    <NavigationBar email={session?.user?.email} image={session?.user?.image}/>
+    <NavigationMeet email={session?.user?.email} image={session?.user?.image}/>
     <div style={{display:'flex'}}>
     <div style={{paddingTop:'3%',paddingLeft:'3%'}}>
        <div>
