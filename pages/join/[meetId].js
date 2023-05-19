@@ -4,6 +4,6 @@ const DualMeet = dynamic(()=> import('../Components/DualMeet'),{ssr:false});
 const MeetingLink=()=>{
 const router=useRouter();
 const meetId=router.query.meetId;
-return <DualMeet join={false} meetId={meetId}/>
+return <DualMeet join={true} meetId={meetId}/>
 }
 export default MeetingLink;

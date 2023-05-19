@@ -17,7 +17,6 @@ const DualMeet=({join,meetId})=>{
   /** Declaration Section Begin **/
 
   const [startMeeting,setStartMeeting]=useState(false);
-  const [name,setName]=useState('');
   const { data: session, status } = useSession();
   const [stream, setStream] = useState(null);
   const [videoPlaying, setVideoPlaying] = useState(true);
@@ -26,6 +25,8 @@ const DualMeet=({join,meetId})=>{
   const remoteVideoRef= useRef();
   const router=useRouter();
   const userImage=session?.user?session.user.image:'/person.svg';
+  const [name,setName]=useState('ayush');
+  
  /** Declaration Section End **/
 
  /**SVG SECTION begin**/
@@ -137,6 +138,7 @@ peer.on('call', (call) => {
 }
 const joinMeeting=()=>{
   const peer=new Peer();
+  console.log('joining...')
   peer.on('open', (id) => {
         let call = peer.call('panwar2001', stream)
         call.on('stream', (remoteStream) => {
@@ -146,7 +148,11 @@ const joinMeeting=()=>{
 }
 
 const handleJoin=()=>{
-    name.trim()!==''?setStartMeeting(true):alert('Please Enter your name');
+  if(name.trim()===''){
+    alert('Please Enter your name');    
+    return;
+  }
+    setStartMeeting(true);
     join?joinMeeting():createMeeting();
  }
  const handleDisconnect=()=>{
@@ -272,7 +278,7 @@ useEffect(() => {
     </div>
     {session?.user?(<div style={{paddingLeft:'15%',paddingTop:'10%',fontSize:'3em'}}> Ready to join?
     <div>
-    <button type="button" style={styleJoin} onClick={()=>setStartMeeting(true)}>
+    <button type="button" style={styleJoin} onClick={handleJoin}>
     Join Now   
    </button>
     </div>

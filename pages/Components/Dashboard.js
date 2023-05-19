@@ -11,10 +11,10 @@ export default function Dashboard() {
   }
   const router=useRouter();
   const createNewMeeting=()=>{
-    router.push({pathname:`${generateUniqueId()}`});
+    router.push(`/create/${generateUniqueId()}`);
   }
   const joinNewMeeting=()=>{
-    router.push({pathname:`${MeetingId.trim()}`})
+    router.push(`/join/${MeetingId.trim()}`)
   }
     return (<>
               <Header/>
