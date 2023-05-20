@@ -10,7 +10,7 @@ import microphoneOn from '../svg/microphoneOn.svg';
 import microphoneOff from '../svg/microphoneOff.svg';
 import endCall from '../svg/endCall.svg';
 import NavigationMeet from './navigation/NavigationMeet';
-//import Peer from "peerjs";
+import { SideBar, SideBarButton } from './SideBar';
 
 /** Import Section End **/
 
@@ -26,8 +26,12 @@ const DualMeet=({join,meetId})=>{
   const remoteVideoRef= useRef();
   const router=useRouter();
   const userImage=session?.user?session.user.image:'/person.svg';
-  const [name,setName]=useState('ayush');
-  
+  const [name,setName]=useState('df');
+  const [slideClass,setSlideClass] = useState("slide");
+  /** MATTER OF CONCERN **/
+  // if(session?.user) setName(session.user.name);
+  /** MATTER OF CONCERN **/
+
  /** Declaration Section End **/
 
  /**SVG SECTION begin**/
@@ -120,19 +124,17 @@ const startVideoMedia=()=>{
   localVideoRef.current.srcObject=stream;
 }
 const stopVideoMedia=()=>{
-  import('peerjs').then(({ default: Peer }) => {
   if(!stream)return;
   stream.getVideoTracks().forEach((track) => {
     track.enabled=false;
   });
   if(localVideoRef.current)
   localVideoRef.current.srcObject=stream;
-});
 }
 
 const createMeeting=()=>{
   import('peerjs').then(({ default: Peer }) => {
-  const peer=new Peer('panwar2001'); 
+  const peer=new Peer(meetId); 
   peer.on('open', (id) => {
     console.log("Peer Connected with ID: ", id)
    })
@@ -146,14 +148,16 @@ peer.on('call', (call) => {
 
 }
 const joinMeeting=()=>{
+  import('peerjs').then(({ default: Peer }) => {
   const peer=new Peer();
   console.log('joining...')
   peer.on('open', (id) => {
-        let call = peer.call('panwar2001', stream)
+        let call = peer.call(meetId, stream)
         call.on('stream', (remoteStream) => {
           remoteVideoRef.current.srcObject=remoteStream;
         })
     })
+  })
 }
 
 const handleJoin=()=>{
@@ -197,12 +201,15 @@ useEffect(() => {
   if(startMeeting){
   return <div style={meetPageStyle} >
     <div className='localVideo'>
-        <video ref={localVideoRef} autoPlay muted className="video1"/>
-       {!videoPlaying&&<Image src={userImage} height={150} width={150} style={userImageStyle} alt="User image"/>}
+        <video ref={remoteVideoRef} autoPlay muted className="video1"/>
     </div>    
        <div className="posVideo2">
- <video ref={remoteVideoRef} autoPlay muted className="video2"/>
+ <video ref={localVideoRef} autoPlay muted className="video2"/>
+ {!videoPlaying&&<Image src={userImage} height={150} width={150} style={userImageStyle} alt="User image"/>}
    </div>
+
+   <SideBar names={['ayush','arjun','aman','aniket','anshu','alen','amar']} slideClass={slideClass} setSlideClass={setSlideClass}/>
+
       <div style={styleFooterButtons}>
         <div className="operate">
        <button onClick={() => setVideoPlaying(videoPlaying^true)} style={styleCamera}  >
@@ -218,6 +225,10 @@ useEffect(() => {
         <button  style={styleEndCall}>
            <Image src={endCall} onClick={()=>handleDisconnect()} alt="End call svg" width={50} height={50}/>   
         </button>
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div>
+        <SideBarButton slideClass={slideClass} setSlideClass={setSlideClass}/>
         </div>
         </div>
 
