@@ -39,10 +39,13 @@ const styleCamera={
   borderRadius:'50%',
   backgroundColor:videoPlaying?'transparent':'red',
   color:'black',
+  cursor:'pointer'
 }
 const styleMicrophone={
     borderRadius:'50%',
     backgroundColor:audioPlaying?'transparent':'red',
+    cursor:'pointer'
+
 }
 const styleEndCall={
     borderRadius:'50%',
@@ -262,34 +265,29 @@ useEffect(() => {
   /** Conditional rendering Section End **/
     return (<>
     <NavigationMeet email={session?.user?.email} image={session?.user?.image}/>
-    <div style={{display:'flex'}}>
-    <div style={{paddingTop:'3%',paddingLeft:'3%'}}>
-       <div>
-      <video ref={localVideoRef} autoPlay muted />
-      </div>
-      <button onClick={() => setVideoPlaying(videoPlaying^true)} style={styleCamera}>
-         <Image src={videoPlaying?cameraON:cameraOFF} alt="Web cam svg" width={50} height={50}/>
-      </button>
-      <button onClick={() => setAudioPlaying(audioPlaying^true)} style={styleMicrophone}>
-         <Image src={audioPlaying?microphoneOn:microphoneOff} alt="Microphone svg" width={50} height={50}/>   
-      </button> 
-      <style jsx> {`
-      video{
-          transform:scaleX(-1);
-          height:77.5vh;
-          width:46vw;
-        }
-      `}
-      </style>
-    </div>
-    {session?.user?(<div style={{paddingLeft:'15%',paddingTop:'10%',fontSize:'3em'}}> Ready to join?
+    <div className="Align">
+        <div className="AlignContent" >
+           <div>            
+              <video ref={localVideoRef} autoPlay muted/>
+              <div className='posButton'>
+                  <button onClick={() => setVideoPlaying(videoPlaying^true)} style={styleCamera}>
+                    <Image src={videoPlaying?cameraON:cameraOFF} alt="Web cam svg" width={50} height={50}/>
+                  </button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   <button onClick={() => setAudioPlaying(audioPlaying^true)} style={styleMicrophone}>
+                     <Image src={audioPlaying?microphoneOn:microphoneOff} alt="Microphone svg" width={50} height={50}/>   
+                   </button> 
+              </div>
+           </div>
+        </div>
+    {session?.user?(<div className='join'> Ready to join?
     <div>
     <button type="button" style={styleJoin} onClick={handleJoin}>
     Join Now   
    </button>
     </div>
     </div>):
-    (<div style={{paddingLeft:'15%',paddingTop:'10%',fontSize:'3em'}}><label>What&apos;s your name</label>
+    (<div className='join'><label>What&apos;s your name</label>
     <input type="text" onChange={(e)=>setName(e.target.value)}  maxLength={60} style={{backgroundColor:'#edebe6',border:'none',fontSize:'.5em'}} placeholder='your name' />
     <div>
     <button type="button" style={styleJoin} onClick={handleJoin}>
@@ -298,6 +296,55 @@ useEffect(() => {
     </div>
     </div>)} 
      </div>
+     <style jsx> {`
+      video{
+          transform:scaleX(-1);
+          height:77.5vh;
+          width:46vw;
+        }
+        .posButton{
+          position:relative;
+          bottom:20vh;
+          transform:translate(38%)
+        }
+        .Align{
+          display:flex;
+        }
+        .join{
+          padding-left:15%;
+          padding-top:10%;
+          font-size:3em;
+        }
+        .AlignContent{
+          padding-top:3%;
+          padding-left:3%;
+        }
+
+        @media(max-width:960px){
+          .Align{
+            display:block;
+            margin-top:-35%;
+          }
+          video{
+            position:relative;
+            height:90vh;
+            width:95vw;
+            justify-content:center;
+            align-content:center;
+          } 
+          .posButton{
+            transform:translate(34%,-80%)
+          } 
+           .join{
+            display:block;
+          position:relative;
+          padding-left:15%;
+          margin-top:-60%;
+          font-size:3em;
+        }
+        }
+      `}
+      </style>
     </>);
 }
 

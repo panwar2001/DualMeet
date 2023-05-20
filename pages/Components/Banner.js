@@ -20,7 +20,7 @@ export default function Banner(){
     <h3 style={{color:'grey',paddingLeft:'5%'}}>Enjoy seamless, secure, high-quality video meetings and calls with DualMeet - the video conferencing service that&apos;s available on any device.</h3>
     <div className="CreateOrJoin">
        <div>
-          <button   style={createNewMeetingButton}><table><tr><td><Image src='/cam.svg' alt='Brand logo' height={30} width={40}/></td><td> new meeting</td></tr></table></button>
+          <button   style={createNewMeetingButton}><table><tbody><tr><td><Image src='/cam.svg' alt='Brand logo' height={30} width={40}/></td><td> new meeting</td></tr></tbody></table></button>
        </div>
         &nbsp;<b>or</b>&nbsp;
        <div>

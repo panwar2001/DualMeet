@@ -44,7 +44,7 @@ export default function Dashboard() {
                 <p >Designed  secure business meeting service, DualMeet<br/> to make it free and accessible to everyone. <br/></p>
                 <div className="CreateOrJoin">
                  <div>
-                  <button  onClick={createNewMeeting} style={createNewMeetingButton}><table><tr><td><Image src='/cam.svg' alt='Brand logo' height={30} width={40}/></td><td> new meeting</td></tr></table></button>
+                  <button  onClick={createNewMeeting} style={createNewMeetingButton}><table><tbody><tr><td><Image src='/cam.svg' alt='Brand logo' height={30} width={40}/></td><td> new meeting</td></tr></tbody></table></button>
                 </div>
                 &nbsp;&nbsp;
                 <div>
