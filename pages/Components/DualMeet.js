@@ -11,7 +11,7 @@ import microphoneOff from '../svg/microphoneOff.svg';
 import endCall from '../svg/endCall.svg';
 import NavigationMeet from './navigation/NavigationMeet';
 import { SideBar, SideBarButton } from './SideBar';
-
+import Copy from './Copy';
 /** Import Section End **/
 
 const DualMeet=({join,meetId})=>{
@@ -26,11 +26,8 @@ const DualMeet=({join,meetId})=>{
   const remoteVideoRef= useRef();
   const router=useRouter();
   const userImage=session?.user?session.user.image:'/person.svg';
-  const [name,setName]=useState('df');
+  const [name,setName]=useState('user name');
   const [slideClass,setSlideClass] = useState("slide");
-  /** MATTER OF CONCERN **/
-  // if(session?.user) setName(session.user.name);
-  /** MATTER OF CONCERN **/
 
  /** Declaration Section End **/
 
@@ -144,6 +141,15 @@ peer.on('call', (call) => {
         remoteVideoRef.current.srcObject=remoteStream;
     })  
 })
+
+// peer.on('connection', (conn) => {
+//   conn.on('data', (data) => {
+//     console.log('Received message from ayush side:', data);
+//   });
+//   conn.send('Data sent : ayush');
+// });
+
+
   });
 
 }
@@ -157,11 +163,22 @@ const joinMeeting=()=>{
           remoteVideoRef.current.srcObject=remoteStream;
         })
     })
+
+  //   const conn = peer.connect(meetId);
+  //  conn.on('open', () => {
+  //     conn.send('Hello from panwar!');
+  //     conn.on('data', (data) => {
+  //       console.log('Received message from panwar side:', data);
+  //     });
+  //   });
   })
 }
 
 const handleJoin=()=>{
-  if(name.trim()===''){
+  if(session?.user){
+    setName(session.user.name);
+  }
+ else if(name.trim()===''){
     alert('Please Enter your name');    
     return;
   }
@@ -201,14 +218,14 @@ useEffect(() => {
   if(startMeeting){
   return <div style={meetPageStyle} >
     <div className='localVideo'>
-        <video ref={remoteVideoRef} autoPlay muted className="video1"/>
+        <video ref={remoteVideoRef} autoPlay  className="video1"/>
     </div>    
        <div className="posVideo2">
- <video ref={localVideoRef} autoPlay muted className="video2"/>
+ <video ref={localVideoRef} autoPlay  className="video2"/>
  {!videoPlaying&&<Image src={userImage} height={150} width={150} style={userImageStyle} alt="User image"/>}
    </div>
 
-   <SideBar names={['ayush','arjun','aman','aniket','anshu','alen','amar']} slideClass={slideClass} setSlideClass={setSlideClass}/>
+   <SideBar names={[name]} slideClass={slideClass} setSlideClass={setSlideClass}/>
 
       <div style={styleFooterButtons}>
         <div className="operate">
@@ -276,6 +293,7 @@ useEffect(() => {
   /** Conditional rendering Section End **/
     return (<>
     <NavigationMeet email={session?.user?.email} image={session?.user?.image}/>
+    <Copy text={meetId}/>
     <div className="Align">
         <div className="AlignContent" >
            <div>            
