@@ -10,11 +10,8 @@ export default function Dashboard() {
     return time.toString(16);
   }
   const router=useRouter();
-  const createNewMeeting=()=>{
-    router.push(`/create/${generateUniqueId()}`);
-  }
-  const joinNewMeeting=()=>{
-    router.push(`/join/${MeetingId.trim()}`)
+  const Meeting=()=>{
+    router.push(`/${generateUniqueId()}`);
   }
   const styleMeetingText={
     fontSize:'2.7em',
@@ -44,12 +41,12 @@ export default function Dashboard() {
                 <p >Designed  secure business meeting service, DualMeet<br/> to make it free and accessible to everyone. <br/></p>
                 <div className="CreateOrJoin">
                  <div>
-                  <button  onClick={createNewMeeting} style={createNewMeetingButton}><table><tbody><tr><td><Image src='/cam.svg' alt='Brand logo' height={30} width={40}/></td><td> new meeting</td></tr></tbody></table></button>
+                  <button  onClick={()=>Meeting()} style={createNewMeetingButton}><table><tbody><tr><td><Image src='/cam.svg' alt='Brand logo' height={30} width={40}/></td><td> new meeting</td></tr></tbody></table></button>
                 </div>
                 &nbsp;&nbsp;
                 <div>
                 <input type='text' name="join" onChange={(e)=>setMeetingId(e.target.value)} placeholder='Enter a code or link' />
-                <button onClick={joinNewMeeting} type='button' style={joinButton}> Join</button>
+                <button onClick={()=>Meeting()} type='button' style={joinButton}> Join</button>
                  </div>
                 </div>
               </div>

@@ -1,3 +1,4 @@
+'use client'
 /** Import Section Begin **/
 import { useRef, useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
@@ -9,12 +10,11 @@ import cameraON from '../svg/cameraON.svg';
 import microphoneOn from '../svg/microphoneOn.svg';
 import microphoneOff from '../svg/microphoneOff.svg';
 import endCall from '../svg/endCall.svg';
-import NavigationMeet from './navigation/NavigationMeet';
 import { SideBar, SideBarButton } from './SideBar';
-import Copy from './Copy';
+import Peer from 'peerjs';
 /** Import Section End **/
 
-const DualMeet=({join,meetId})=>{
+const DualMeet=()=>{
   /** Declaration Section Begin **/
 
   const [startMeeting,setStartMeeting]=useState(false);
@@ -26,9 +26,8 @@ const DualMeet=({join,meetId})=>{
   const remoteVideoRef= useRef();
   const router=useRouter();
   const userImage=session?.user?session.user.image:'/person.svg';
-  const [name,setName]=useState('user name');
   const [slideClass,setSlideClass] = useState("slide");
-
+  const [meetingCreated,setMeetingCreated]=useState(false);
  /** Declaration Section End **/
 
  /**SVG SECTION begin**/
@@ -72,15 +71,6 @@ const userImageStyle={
   height:'20%',
   width:'auto'
 }
-const styleJoin={
-  height:'4%',
-  backgroundColor:'#1a73e8',
-  color:'#fff',
-  fontWeight:'bold',
-  cursor:'pointer',
-  fontSize:'1em'
-};
-
  /** Inline css Section End **/
 
  /** Functions Section Begin **/
@@ -130,7 +120,7 @@ const stopVideoMedia=()=>{
 }
 
 const createMeeting=()=>{
-  import('peerjs').then(({ default: Peer }) => {
+  setMeetingCreated(true);
   const peer=new Peer(meetId); 
   peer.on('open', (id) => {
     console.log("Peer Connected with ID: ", id)
@@ -141,50 +131,8 @@ peer.on('call', (call) => {
         remoteVideoRef.current.srcObject=remoteStream;
     })  
 })
-
-// peer.on('connection', (conn) => {
-//   conn.on('data', (data) => {
-//     console.log('Received message from ayush side:', data);
-//   });
-//   conn.send('Data sent : ayush');
-// });
-
-
-  });
-
-}
-const joinMeeting=()=>{
-  import('peerjs').then(({ default: Peer }) => {
-  const peer=new Peer();
-  console.log('joining...')
-  peer.on('open', (id) => {
-        let call = peer.call(meetId, stream)
-        call.on('stream', (remoteStream) => {
-          remoteVideoRef.current.srcObject=remoteStream;
-        })
-    })
-
-  //   const conn = peer.connect(meetId);
-  //  conn.on('open', () => {
-  //     conn.send('Hello from panwar!');
-  //     conn.on('data', (data) => {
-  //       console.log('Received message from panwar side:', data);
-  //     });
-  //   });
-  })
 }
 
-const handleJoin=()=>{
-  if(session?.user){
-    setName(session.user.name);
-  }
- else if(name.trim()===''){
-    alert('Please Enter your name');    
-    return;
-  }
-    setStartMeeting(true);
-    join?joinMeeting():createMeeting();
- }
  const handleDisconnect=()=>{
   if(stream){
   const tracks = stream.getTracks();
@@ -215,7 +163,6 @@ useEffect(() => {
   if(status=='loading'){
     return <Loader/>
   }
-  if(startMeeting){
   return <div style={meetPageStyle} >
     <div className='localVideo'>
         <video ref={remoteVideoRef} autoPlay  className="video1"/>
@@ -224,7 +171,7 @@ useEffect(() => {
  <video ref={localVideoRef} autoPlay  className="video2"/>
  {!videoPlaying&&<Image src={userImage} height={150} width={150} style={userImageStyle} alt="User image"/>}
    </div>
-
+{/*  */}
    <SideBar names={[name]} slideClass={slideClass} setSlideClass={setSlideClass}/>
 
       <div style={styleFooterButtons}>
@@ -290,91 +237,5 @@ useEffect(() => {
         </style>
     </div>
   }
-  /** Conditional rendering Section End **/
-    return (<>
-    <NavigationMeet email={session?.user?.email} image={session?.user?.image}/>
-    <Copy text={meetId}/>
-    <div className="Align">
-        <div className="AlignContent" >
-           <div>            
-              <video ref={localVideoRef} autoPlay muted/>
-              <div className='posButton'>
-                  <button onClick={() => setVideoPlaying(videoPlaying^true)} style={styleCamera}>
-                    <Image src={videoPlaying?cameraON:cameraOFF} alt="Web cam svg" width={50} height={50}/>
-                  </button>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   <button onClick={() => setAudioPlaying(audioPlaying^true)} style={styleMicrophone}>
-                     <Image src={audioPlaying?microphoneOn:microphoneOff} alt="Microphone svg" width={50} height={50}/>   
-                   </button> 
-              </div>
-           </div>
-        </div>
-    {session?.user?(<div className='join'> Ready to join?
-    <div>
-    <button type="button" style={styleJoin} onClick={handleJoin}>
-    Join Now   
-   </button>
-    </div>
-    </div>):
-    (<div className='join'><label>What&apos;s your name</label>
-    <input type="text" onChange={(e)=>setName(e.target.value)}  maxLength={60} style={{backgroundColor:'#edebe6',border:'none',fontSize:'.5em'}} placeholder='your name' />
-    <div>
-    <button type="button" style={styleJoin} onClick={handleJoin}>
-    Join Now   
-   </button>
-    </div>
-    </div>)} 
-     </div>
-     <style jsx> {`
-      video{
-          transform:scaleX(-1);
-          height:77.5vh;
-          width:46vw;
-        }
-        .posButton{
-          position:relative;
-          bottom:20vh;
-          transform:translate(38%)
-        }
-        .Align{
-          display:flex;
-        }
-        .join{
-          padding-left:15%;
-          padding-top:10%;
-          font-size:3em;
-        }
-        .AlignContent{
-          padding-top:3%;
-          padding-left:3%;
-        }
-
-        @media(max-width:960px){
-          .Align{
-            display:block;
-            margin-top:-35%;
-          }
-          video{
-            position:relative;
-            height:90vh;
-            width:95vw;
-            justify-content:center;
-            align-content:center;
-          } 
-          .posButton{
-            transform:translate(34%,-80%)
-          } 
-           .join{
-            display:block;
-          position:relative;
-          padding-left:15%;
-          margin-top:-60%;
-          font-size:3em;
-        }
-        }
-      `}
-      </style>
-    </>);
-}
 
 export default DualMeet;
