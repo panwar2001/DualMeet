@@ -45,6 +45,7 @@ export  const SideBar = ({names=[],slideClass,setSlideClass}) => {
        </div>
        </div>
          {names.map((n)=>{
+          if(!n)return;
             for(i=0,len=Math.min(inputName.length,n.length);i<len;i++){
                 if(inputName[i]!==n[i])
                     return;

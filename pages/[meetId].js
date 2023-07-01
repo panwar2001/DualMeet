@@ -15,7 +15,7 @@ import microphoneOff from './svg/microphoneOff.svg';
 const MeetingLink=()=>{
 const router=useRouter();
 const meetId=router.query.meetId;
-const [name,setName]=useState('user name');
+const [name,setName]=useState('');
 const [videoPlaying, setVideoPlaying] = useState(true);
 const [audioPlaying,setAudioPlaying] = useState(true);
 const { data: session, status } = useSession();
@@ -89,11 +89,14 @@ const handleJoin=()=>{
       alert('Please Enter your name');    
       return;
     }
-    router.push('/Components/DualMeet',`/${meetId}`);
+    router.push({
+      pathname:'/Components/DualMeet',
+      query: {name:name},
+    }, `/${meetId}`);
 }
 useEffect(()=>{
   getVideoMedia()
-  return ()=>{
+  return ()=>{    
     if(stream){
     stream.getVideoTracks().forEach((track) =>track.stop());
     setStream(null);

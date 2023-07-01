@@ -28,11 +28,11 @@ const DualMeet=()=>{
   const remoteVideoRef= useRef();
   const userImage=session?.user?session.user.image:'/person.svg';
   const [slideClass,setSlideClass] = useState("slide");
-  const {asPath}=useRouter();
+  const [remoteImage,setRemoteImage]=useState('/person.svg');
+  const router=useRouter();
   const peerRef=useRef(null);
   const socket=useRef();
-  const [names,setNames]=useState([]);
-  // const socket=io("http://localhost:8080");
+  const [names,setNames]=useState([router.query.name]);
  /** Declaration Section End **/
 
  /**SVG SECTION begin**/
@@ -76,6 +76,15 @@ const userImageStyle={
   height:'20%',
   width:'auto'
 }
+const remoteImageStyle={
+  borderRadius:'50%',
+  position:'absolute',
+  left:'40%',
+  top:'20%',
+  height:'20%',
+  width:'auto',
+  zIndex:'-1'
+}
  /** Inline css Section End **/
 
  /** Functions Section Begin **/
@@ -112,16 +121,16 @@ const AudioMedia = () => {
     setAudioPlaying(audioPlaying^true);
 };
 
-
+useEffect(() => {
+  router.beforePopState(()=>{
+    router.reload();
+    return false;
+   });
+  }, []);
  const handleDisconnect=()=>{
-  const tracks = stream.getTracks();
-  tracks.forEach(track => track.stop());
-    setStream(null);
-  // router.back();
+    router.reload();
  }
-// router.onPopState=handleDisconnect;
  /** Functions Section Begin **/
- 
 /** UseEffect Section Begin **/
 const startMeeting=async ()=>{
         const stream=await  navigator.mediaDevices.getUserMedia({ audio:true, video: {
@@ -140,16 +149,20 @@ const startMeeting=async ()=>{
              stream:stream
           });
         peerRef.current.on('signal', (data) => {
-          socket.current.emit('call', asPath, data);
+          socket.current.emit('call', router.asPath, data,names[0],userImage);
         });
-        socket.current.on('response', (data) => {
+        socket.current.on('response', (data,name,image) => {
+          setNames([...names,name]);
+          setRemoteImage(image);
           peerRef.current.signal(data);
         });  
         peerRef.current.on('stream',(stream)=>{
           remoteVideoRef.current.srcObject=stream;
         })
       });
-        socket.current.on('receiver', (data) => {
+        socket.current.on('receiver', (data,name,image) => {
+          setNames([...names,name]);
+          setRemoteImage(image);
             peerRef.current = new SimplePeer({
                initiator:false,
                trickle:false,
@@ -157,18 +170,24 @@ const startMeeting=async ()=>{
             });
             peerRef.current.signal(data);
             peerRef.current.on('signal', (d) => {
-            socket.current.emit('accept', asPath, d);
+            socket.current.emit('accept', router.asPath, d,names[0],userImage);
             }); 
             peerRef.current.on('stream',(stream)=>{
               remoteVideoRef.current.srcObject=stream;
             })
-        });         
+        });  
+        socket.current.on('disconnected',()=>{
+          setNames([names[0]]);
+          setRemoteImage('/person.svg');
+          remoteVideoRef.current.srcObject=null;
+          peerRef.current?.destroy();
+        })       
 }
 
 useEffect(()=>{
-  socket.current=io("http://localhost:8080");
+  socket.current=io("https://dualmeetbackend.onrender.com");
   socket.current.on('connect',()=>{
-    socket.current.emit("join",asPath);
+    socket.current.emit("join",router.asPath);
    });
   socket.current.on('full',(warn)=>{
     toast.warn(warn, {
@@ -178,7 +197,7 @@ useEffect(()=>{
     startMeeting();
     
   return ()=>{
-    peerRef.current?.close();
+    peerRef.current?.destroy();
   }
   }, []);
 
@@ -192,6 +211,7 @@ useEffect(()=>{
     <ToastContainer />
     <div className='localVideo'>
         <video ref={remoteVideoRef} autoPlay  className="video1"/>
+        <Image src={remoteImage} height={150} width={150} style={userImageStyle} alt="remote user image"/>
     </div>    
        <div className="posVideo2">
  <video ref={localVideoRef} autoPlay  className="video2"/>
