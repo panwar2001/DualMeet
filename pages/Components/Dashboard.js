@@ -3,6 +3,9 @@ import Image from 'next/image';
 import ImageSlider from './ImageSlider';
 import {useRouter} from 'next/router'; 
 import { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
 export default function Dashboard() {
   const [MeetingId,setMeetingId]=useState('');
   const generateUniqueId=()=>{
@@ -12,6 +15,16 @@ export default function Dashboard() {
   const router=useRouter();
   const Meeting=()=>{
     router.push(`/${generateUniqueId()}`);
+  }
+  const joinMeeting=()=>{
+    setMeetingId(MeetingId.trim());
+    if(MeetingId.length<8||(/[^a-zA-Z0-9]/.test(MeetingId))){
+      toast.warn('Invalid DualMeet ID', {
+        position: toast.POSITION.TOP_CENTER
+      });
+    }else{
+      router.push(`/${MeetingId}`);
+    }
   }
   const styleMeetingText={
     fontSize:'2.7em',
@@ -32,7 +45,8 @@ export default function Dashboard() {
   cursor:'pointer'
   }
     return (<>
-              <NavigationDashboard/>
+               <ToastContainer />
+               <NavigationDashboard/>
               <div className='sliderResponsive'>
                 <div style={{paddingTop:'3%',marginLeft:'5%',width:'70%'}}>
                 <h1 style={styleMeetingText}>
@@ -45,8 +59,8 @@ export default function Dashboard() {
                 </div>
                 &nbsp;&nbsp;
                 <div>
-                <input type='text' name="join" onChange={(e)=>setMeetingId(e.target.value)} placeholder='Enter a code or link' />
-                <button onClick={()=>Meeting()} type='button' style={joinButton}> Join</button>
+                <input type='text' name="join" onChange={(e)=>setMeetingId(e.target.value)} placeholder='Enter a code or link' maxLength={20}/>
+                <button onClick={()=>joinMeeting()} type='button' style={joinButton}> Join</button>
                  </div>
                 </div>
               </div>

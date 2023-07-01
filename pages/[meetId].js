@@ -57,7 +57,6 @@ const styleJoin={
     }
   };
   const AudioMedia = () => {
-    if(!stream)return;
       stream.getAudioTracks().forEach((track) => {
         track.enabled=audioPlaying^true;
       });
@@ -66,10 +65,10 @@ const styleJoin={
   };
 
   const VideoMedia=()=>{
+    
     if(videoPlaying){
        localVideoRef.current.srcObject=null;
        stream.getVideoTracks().forEach((track) =>track.stop());
-       setStream(null);
       }
    else{
      navigator.mediaDevices.getUserMedia({ audio:true, video: {
@@ -92,7 +91,15 @@ const handleJoin=()=>{
     }
     router.push('/Components/DualMeet',`/${meetId}`);
 }
-useEffect(()=>{getVideoMedia()},[]);
+useEffect(()=>{
+  getVideoMedia()
+  return ()=>{
+    if(stream){
+    stream.getVideoTracks().forEach((track) =>track.stop());
+    setStream(null);
+    }
+  }
+},[]);
   
 return (<>
     <NavigationMeet email={session?.user?.email} image={session?.user?.image}/>
@@ -131,12 +138,13 @@ return (<>
      <style jsx> {`
       video{
           transform:scaleX(-1);
-          height:77.5vh;
-          width:46vw;
+          height:60.5vh;
+          width:45vw;
+          background-color:black;
         }
         .posButton{
           position:relative;
-          bottom:20vh;
+          bottom:12vh;
           transform:translate(38%)
         }
         .Align{

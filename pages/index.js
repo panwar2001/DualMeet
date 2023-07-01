@@ -10,7 +10,6 @@ export default function Index() {
   if(status=='loading'){
     return <Loader/>
   }
-  
   return (
     <>
       <Head>

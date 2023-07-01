@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Login from "../GoogleAuth.js/Login";
 import Logout from '../GoogleAuth.js/logout';
+import { useRouter } from 'next/router';
 const NavigationHome=({isAuth})=>{
 const headerRowAlign={
     display:'flex',
@@ -35,6 +36,16 @@ const DualMeet={
 color:'white',
 fontSize:'1.0em'
 }
+
+const router=useRouter();
+const generateUniqueId=()=>{
+  const time=Date.now();
+  return time.toString(16);
+}
+const Meeting=()=>{
+  router.push(`/${generateUniqueId()}`);
+}
+
 return (<div style={headerRowAlign}>
 <Image src='cam.svg' alt="CamRecorder" height={40} width={70} />
 <b style={DualMeet}>DualMeet</b>
@@ -43,10 +54,10 @@ return (<div style={headerRowAlign}>
      {isAuth?(<Login />):(<Logout/>)}
    </div>
    <div className='PosRight'>
-     <button style={joinButtonStyle}>Join a meeting</button>
+     <button style={joinButtonStyle} onClick={()=>Meeting()}>Join a meeting</button>
    </div>
     <div className='PosRight'>
-      <button type="button" style={startMeetingButton}>
+      <button type="button" style={startMeetingButton} onClick={()=>Meeting()}>
         Start a meeting
       </button>
      </div>

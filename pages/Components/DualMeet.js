@@ -12,6 +12,8 @@ import endCall from '../svg/endCall.svg';
 import { SideBar, SideBarButton } from './SideBar';
 import { useRouter } from 'next/router';
 import SimplePeer from 'simple-peer';
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 const { io } = require("socket.io-client");
 //** Import Section End **/
 
@@ -129,6 +131,9 @@ const startMeeting=async ()=>{
         localVideoRef.current.srcObject = stream;
         setLocalVideoStream(stream);        
         socket.current.on("initiate",()=>{
+          toast.success("Successfully joined !", {
+            position: toast.POSITION.TOP_CENTER
+          });
           peerRef.current = new SimplePeer({
              initiator:true,
              trickle:false,
@@ -165,7 +170,13 @@ useEffect(()=>{
   socket.current.on('connect',()=>{
     socket.current.emit("join",asPath);
    });
-  startMeeting();
+  socket.current.on('full',(warn)=>{
+    toast.warn(warn, {
+      position: toast.POSITION.TOP_CENTER
+    });
+  });
+    startMeeting();
+    
   return ()=>{
     peerRef.current?.close();
   }
@@ -178,6 +189,7 @@ useEffect(()=>{
     return <Loader/>
   }
   return <div style={meetPageStyle} >
+    <ToastContainer />
     <div className='localVideo'>
         <video ref={remoteVideoRef} autoPlay  className="video1"/>
     </div>    

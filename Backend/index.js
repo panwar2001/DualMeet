@@ -12,15 +12,12 @@ io.on("connection",(socket)=>{
         console.log('joined with'+meetId);
        let size=io.sockets.adapter.rooms.get(meetId)?.size;
        if(!size){
-         console.log('size is 0');
          socket.join(meetId);
        }else if(size==1){
-        console.log("size is 1");
         socket.join(meetId);
         socket.emit('initiate');
       }else{
-       socket.emit("full","room is full");
-       console.log("full")
+       socket.emit("full","Meeting at full capacity so cannot connect !");
       }
       });
       socket.on('call',(meetId,signal)=>{
