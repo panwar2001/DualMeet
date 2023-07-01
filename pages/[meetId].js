@@ -1,6 +1,5 @@
 'use client'
 import { useRouter} from 'next/router';
-//import DualMeet from './Components/DualMeet';
 import NavigationMeet from './Components/navigation/NavigationMeet';
 import Copy from './Components/Copy';
 import { useEffect } from 'react';
@@ -67,13 +66,11 @@ const styleJoin={
   };
 
   const VideoMedia=()=>{
-    if(!stream)return;
     if(videoPlaying){
-        stream.getVideoTracks().forEach((track) => {
-              track.stop();
-    });
-    localVideoRef.current.srcObject=null;
-   }
+       localVideoRef.current.srcObject=null;
+       stream.getVideoTracks().forEach((track) =>track.stop());
+       setStream(null);
+      }
    else{
      navigator.mediaDevices.getUserMedia({ audio:true, video: {
         width: { min: 1024, ideal: 1280, max: 1920 },
@@ -93,7 +90,7 @@ const handleJoin=()=>{
       alert('Please Enter your name');    
       return;
     }
-  //  router.push('/DualMeet','/');
+    router.push('/Components/DualMeet',`/${meetId}`);
 }
 useEffect(()=>{getVideoMedia()},[]);
   
