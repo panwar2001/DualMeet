@@ -1,0 +1,12 @@
+.headerRowAlign{
+    display:flex;
+    background-color:black;
+}
+.auth{
+    position:absolute;
+    right:0;
+}
+.dualmeet{
+    color:white;
+    font-size:1.3em;
+}

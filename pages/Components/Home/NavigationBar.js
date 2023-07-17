@@ -1,8 +1,7 @@
 import Image from 'next/image';
-import Login from "../GoogleAuth.js/Login";
-import Logout from '../GoogleAuth.js/logout';
+import Login from "../GoogleAuth/Login";
 import { useRouter } from 'next/router';
-const NavigationHome=({isAuth})=>{
+const NavigationBar=()=>{
 const headerRowAlign={
     display:'flex',
     position:'relative',
@@ -51,7 +50,7 @@ return (<div style={headerRowAlign}>
 <b style={DualMeet}>DualMeet</b>
 <div style={{position:'absolute',right:'0'}}> 
    <div className='PosRight'>
-     {isAuth?(<Login />):(<Logout/>)}
+     <Login />
    </div>
    <div className='PosRight'>
      <button style={joinButtonStyle} onClick={()=>Meeting()}>Join a meeting</button>
@@ -70,4 +69,4 @@ return (<div style={headerRowAlign}>
 </div>)
 };
 
-export default NavigationHome;
+export default NavigationBar;

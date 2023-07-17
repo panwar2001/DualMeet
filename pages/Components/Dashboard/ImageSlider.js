@@ -1,14 +1,14 @@
  import { useState } from "react";
  import Image from "next/image";
-export default function ImageSlider(){
+const ImageSlider=()=>{
     const [index,setIndex]=useState(0);
     const leftSlide=()=>index>0?setIndex(index-1):0;
     const rightSlide=()=>index<2?setIndex(index+1):0;
     const images=['/user1.svg','/user2.svg','/user3.svg'];
     const title=[
-<div key={0}><div style={{fontSize:'1.5rem'}}>Get a link you can share </div><div style={{fontSize:'.8rem'}}>Click <b>New Meeting</b> to get a link you can send to people</div><div style={{fontSize:'.8rem'}}>you want to meet with</div></div>,
-<div key={1}><div style={{fontSize:'1.5rem'}}>Plan ahead</div><div style={{fontSize:'.8rem'}}>Click <b>New Meeting</b> to schedule meetings in Google</div><div style={{fontSize:'.8rem'}}>Calender and send invites to participants</div></div>,
-<div key={2}><div style={{fontSize:'1.5rem'}}>Your meeting is safe</div><div style={{fontSize:'.8rem'}}>No one can join a meeting unless invited or admitted by</div><div style={{fontSize:'0.8rem'}}>the host</div></div>
+       <div key={0}><div style={{fontSize:'1.5rem'}}>Get a link you can share </div><div style={{fontSize:'.8rem'}}>Click <b>New Meeting</b> to get a link you can send to people</div><div style={{fontSize:'.8rem'}}>you want to meet with</div></div>,
+       <div key={1}><div style={{fontSize:'1.5rem'}}>Plan ahead</div><div style={{fontSize:'.8rem'}}>Click <b>New Meeting</b> to schedule meetings in Google</div><div style={{fontSize:'.8rem'}}>Calender and send invites to participants</div></div>,
+       <div key={2}><div style={{fontSize:'1.5rem'}}>Your meeting is safe</div><div style={{fontSize:'.8rem'}}>No one can join a meeting unless invited or admitted by</div><div style={{fontSize:'0.8rem'}}>the host</div></div>
                ];
     const arrowLeft={
         width:'50px',
@@ -86,3 +86,5 @@ export default function ImageSlider(){
      </div>
     );
 }
+
+export default ImageSlider;

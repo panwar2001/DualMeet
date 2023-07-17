@@ -1,9 +1,8 @@
-import copy from 'copy-to-clipboard';
 const Copy = ({text}) => {
     return <>
     <div className="Box" title="Your meeting id ">
     <input type='text' value={text} readOnly />
-    <button onClick={()=>copy(text)}>
+    <button onClick={()=>navigator.clipboard.writeText(text)}>
     &#128203;
     </button>
     </div>

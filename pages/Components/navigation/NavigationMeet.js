@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import Login from "../GoogleAuth.js/Login";
-import Logout from '../GoogleAuth.js/logout';
+import Login from "../GoogleAuth/Login";
+import Logout from '../GoogleAuth/logout';
 import cam from '@/public/cam.svg'
  const NavigationMeet = ({email,image}) => {
     const joinStyle = {

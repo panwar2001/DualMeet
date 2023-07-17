@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // ignoreDuringBuilds: true,
-  reactStrictMode: false,
+  reactStrictMode: true,
   images:{
     domains: ['lh3.googleusercontent.com']
   }
