@@ -1,13 +1,7 @@
 import {signOut} from 'next-auth/react';
-export default function Logout(){
-  const logoutButtonStyle={
-    fontWeight:'bold',
-    cursor:'pointer',
-    border:'2px solid #fff',
-    fontSize:'15px',
-    height:'40px'
-  }
-   return (<>
-       <button onClick={()=>signOut()} style={logoutButtonStyle}>Sign out</button>
-    </>);
-}
+import styles from "./auth.module.css";
+export default ()=>(
+<button onClick={()=>signOut()} className={styles.auth}>
+  Sign out
+</button>
+);

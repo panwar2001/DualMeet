@@ -1,0 +1,19 @@
+.Box{
+    display:flex;
+    background-color:lightgrey;
+    width:24.42vw;
+    height:7vh;
+ }
+.Box text{
+    font-size:1.5em;
+    border:none;
+    outline:none;
+    width:21vw;
+    background-color:transparent;
+ }
+ .Box button{
+    font-size:2em;
+    border:none;
+    cursor:pointer;
+ }
+ 

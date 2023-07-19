@@ -1,20 +1,12 @@
 import NavigationBar from './NavigationBar';
 import BrandFootage from './BrandFootage'
-import Banner from './Banner';
+import JoinMeeting from './JoinMeeting';
 import Image from 'next/image';
+import styles from './Home.module.css';
 
-export default function Home() {
-    const ImageStyle={
-      position:'relative',
-      float:'right',
-      paddingRight:'5%'
-    }
-    return (<>
+export default ()=><>
               <NavigationBar/>
               <BrandFootage/>
-              <Image src="/meeting.png" alt="Group meeting!" height={500} width={700} style={ImageStyle}/>
-              <Banner/>
-              <hr style={{marginTop:'20%'}}/>
-      </>)
-  }
-  
+              <Image src="/meeting.png" alt="Group meeting!" height={500} width={700} className={styles.ImageStyle}/>
+              <JoinMeeting/>
+              </>  

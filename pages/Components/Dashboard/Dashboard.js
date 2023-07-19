@@ -7,7 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./Dashboard.module.css";
 
-const Dashboard=()=>{
+export default ()=>{
   const [MeetingId,setMeetingId]=useState('');
   const generateUniqueId=()=>{
     const time=Date.now();
@@ -28,14 +28,14 @@ const Dashboard=()=>{
     }
   }
 
-    return (<>
+    return <>
                <ToastContainer />
                <NavigationBar/>
                <div className={styles.sliderResponsive}>
-                  <div style={{paddingTop:'3%',marginLeft:'5%',width:'70%'}}>
-                  <p className={styles.styleMeetingText}>
+                  <div className={styles.positionContent}>
+                  <strong className={styles.styleMeetingText}>
                      Enjoy top-tier video meetings <br/>at no cost.
-                  </p>
+                  </strong>
                    <p >Designed  secure business meeting service, DualMeet<br/> to make it free and accessible to everyone. <br/></p>
                    <div className={styles.CreateOrJoin}>
                      <div>
@@ -53,7 +53,5 @@ const Dashboard=()=>{
               </div>
             </div>
       </>
-    )
   }
   
-  export default Dashboard;

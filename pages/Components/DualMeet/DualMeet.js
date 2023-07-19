@@ -3,12 +3,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import Loader from './Loader';
-import cameraOFF from '../svg/cameraOFF.svg';
-import cameraON from '../svg/cameraON.svg';
-import microphoneOn from '../svg/microphoneOn.svg';
-import microphoneOff from '../svg/microphoneOff.svg';
-import endCall from '../svg/endCall.svg';
+import Loader from "../Loader/Loader";
 import { SideBar, SideBarButton } from './SideBar';
 import { useRouter } from 'next/router';
 import SimplePeer from 'simple-peer';
@@ -88,26 +83,6 @@ const remoteImageStyle={
  /** Inline css Section End **/
 
  /** Functions Section Begin **/
-
-// const VideoMedia=()=>{
-//   if(videoPlaying){
-//     localVideoRef.current.srcObject=null;
-//       stream.getVideoTracks().forEach((track) => {
-//             track.stop();
-//           });
-//     setStream(null);
-//  }
-//  else{
-//    navigator.mediaDevices.getUserMedia({ audio:true, video: {
-//       width: { min: 1024, ideal: 1280, max: 1920 },
-//       height: { min: 576, ideal: 720, max: 1080 },
-//     },}).then((stream)=>{
-//       setStream(stream);
-//       localVideoRef.current.srcObject=stream;    
-//     })
-//  }
-//   setVideoPlaying(videoPlaying^true);
-// }
 const VideoMedia=()=>{
   localVideoStream.getVideoTracks().forEach((track)=>{
     track.enabled=videoPlaying^true;
@@ -222,17 +197,17 @@ useEffect(()=>{
       <div style={styleFooterButtons}>
         <div className="operate">
           <button onClick={() => VideoMedia()} style={styleCamera}>
-           <Image src={videoPlaying?cameraON:cameraOFF} alt="Web cam svg" width={50} height={50}/>
+           <Image src={videoPlaying?'/cameraON.svg':'/cameraOFF.svg'} alt="Web cam svg" width={50} height={50}/>
         </button>
         </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div className='operate'>
         <button onClick={() => AudioMedia()} style={styleMicrophone}>
-           <Image src={audioPlaying?microphoneOn:microphoneOff} alt="Microphone svg" width={50} height={50}/>   
+           <Image src={audioPlaying?'/microphoneOn.svg':'/microphoneOff.svg'} alt="Microphone svg" width={50} height={50}/>   
         </button> 
         </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div className='operate'>
         <button  style={styleEndCall}>
-           <Image src={endCall} onClick={()=>handleDisconnect()} alt="End call svg" width={50} height={50}/>   
+           <Image src='/endCall.svg' onClick={()=>handleDisconnect()} alt="End call svg" width={50} height={50}/>   
         </button>
         </div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

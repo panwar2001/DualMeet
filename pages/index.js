@@ -4,7 +4,7 @@ import Home from './Components/Home/Home';
 import Dashboard from './Components/Dashboard/Dashboard';
 const inter = Inter({ subsets: ['latin'] })
 import { useSession } from 'next-auth/react';
-import Loader from './Components/Loader';
+import Loader from './Components/Loader/Loader';
 export default function Index() {
   const {data:session,status}=useSession();
   if(status=='loading'){

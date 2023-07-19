@@ -1,16 +1,13 @@
 'use client'
 import { useRouter} from 'next/router';
-import NavigationMeet from './Components/navigation/NavigationMeet';
-import Copy from './Components/Copy';
+import NavigationBar from './Components/MeetNow/NavigationBar';
+import Copy from './Components/MeetNow/Copy';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRef } from 'react';
 import Image from 'next/image';
-import cameraOFF from './svg/cameraOFF.svg';
-import cameraON from './svg/cameraON.svg';
-import microphoneOn from './svg/microphoneOn.svg';
-import microphoneOff from './svg/microphoneOff.svg';
+import styles from './meetId.module.css';
 
 const MeetingLink=()=>{
 const router=useRouter();
@@ -21,15 +18,6 @@ const [audioPlaying,setAudioPlaying] = useState(true);
 const { data: session, status } = useSession();
 const localVideoRef = useRef();
 const [stream, setStream] = useState(null);
-
-const styleJoin={
-    height:'4%',
-    backgroundColor:'#1a73e8',
-    color:'#fff',
-    fontWeight:'bold',
-    cursor:'pointer',
-    fontSize:'1em'
-  };
   const styleCamera={
     borderRadius:'50%',
     backgroundColor:videoPlaying?'transparent':'red',
@@ -43,7 +31,7 @@ const styleJoin={
 
 }
 
-  
+
   const getVideoMedia = async () => {
     try {
       const localStream = await navigator.mediaDevices.getUserMedia({ audio:true, video: {
@@ -90,7 +78,7 @@ const handleJoin=()=>{
       return;
     }
     router.push({
-      pathname:'/Components/DualMeet',
+      pathname:'./Components/DualMeet/DualMeet',
       query: {name:name},
     }, `/${meetId}`);
 }
@@ -105,89 +93,39 @@ useEffect(()=>{
 },[]);
   
 return (<>
-    <NavigationMeet email={session?.user?.email} image={session?.user?.image}/>
+    <NavigationBar email={session?.user?.email} image={session?.user?.image}/>
     <Copy text={meetId}/>
-    <div className="Align">
-        <div className="AlignContent" >
+    <div className={styles.Align}>
+        <div className={styles.AlignContent} >
            <div>            
               <video ref={localVideoRef} autoPlay muted/>
-              <div className='posButton'>
+              <div className={styles.posButton}>
                   <button onClick={() => VideoMedia()} style={styleCamera}>
-                    <Image src={videoPlaying?cameraON:cameraOFF} alt="Web cam svg" width={50} height={50}/>
+                    <Image src={videoPlaying?'/cameraON.svg':'/cameraOFF.svg'} alt="Web cam svg" width={50} height={50}/>
                   </button>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                    <button onClick={() => AudioMedia()} style={styleMicrophone}>
-                     <Image src={audioPlaying?microphoneOn:microphoneOff} alt="Microphone svg" width={50} height={50}/>   
+                     <Image src={audioPlaying?'/microphoneOn.svg':'/microphoneOff.svg'} alt="Microphone svg" width={50} height={50}/>   
                    </button> 
               </div>
            </div>
         </div>
-    {session?.user?(<div className='join'> Ready to join?
+    {session?.user?(<div className={styles.styleJoin}> Ready to join?
     <div>
-    <button type="button" style={styleJoin} onClick={handleJoin}>
+    <button type="button" className={styles.styleJoin} onClick={handleJoin}>
     Join Now   
    </button>
     </div>
     </div>):
-    (<div className='join'><label>What&apos;s your name</label>
+    (<div className={styles.join}><label>What&apos;s your name</label>
     <input type="text" onChange={(e)=>setName(e.target.value)}  maxLength={60} style={{backgroundColor:'#edebe6',border:'none',fontSize:'.5em'}} placeholder='your name' />
     <div>
-    <button type="button" style={styleJoin} onClick={handleJoin}>
+    <button type="button" className={styles.styleJoin} onClick={handleJoin}>
     Join Now   
    </button>
     </div>
     </div>)} 
      </div>
-     <style jsx> {`
-      video{
-          transform:scaleX(-1);
-          height:60.5vh;
-          width:45vw;
-          background-color:black;
-        }
-        .posButton{
-          position:relative;
-          bottom:12vh;
-          transform:translate(38%)
-        }
-        .Align{
-          display:flex;
-        }
-        .join{
-          padding-left:15%;
-          padding-top:10%;
-          font-size:3em;
-        }
-        .AlignContent{
-          padding-top:3%;
-          padding-left:3%;
-        }
-
-        @media(max-width:960px){
-          .Align{
-            display:block;
-            margin-top:-35%;
-          }
-          video{
-            position:relative;
-            height:90vh;
-            width:95vw;
-            justify-content:center;
-            align-content:center;
-          } 
-          .posButton{
-            transform:translate(34%,-80%)
-          } 
-           .join{
-            display:block;
-          position:relative;
-          padding-left:15%;
-          margin-top:-60%;
-          font-size:3em;
-        }
-        }
-      `}
-      </style>
     </>);
 }
 export default MeetingLink;

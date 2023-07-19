@@ -1,0 +1,28 @@
+.joinStyle {
+    display: flex;
+    background-color: black;
+}
+.joinStyle b{ 
+    color: white;
+    font-size:1.3em;
+ }
+.Info{
+    display:flex;
+    position:absolute;
+    right:0;
+ }
+.profile{
+    position:relative;
+ }
+.circularImage{
+    border-radius:50%;
+ }
+ @media(max-width:944px){
+    .email{
+     display:none;
+    }
+ }
+ .email{
+     position:relative;
+     color: white;   
+ }

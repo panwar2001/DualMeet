@@ -1,5 +1,4 @@
 import { useState ,React} from "react";
-import group from '../svg/group.svg';
 import Image from "next/image";
 export const SearchIcon=()=>{
     const search={transform: "rotate(-90deg)",fontSize:'2em'};
@@ -99,7 +98,7 @@ export const SideBarButton=({slideClass,setSlideClass})=>{
     borderRadius:'50%'
   }
 return <button onClick={() => slideClass=== "slide click" ? setSlideClass("slide") : setSlideClass("slide click")} style={styleButton}>
-            <Image src={group}  alt="End call svg" width={50} height={50}/>    
+            <Image src='/group.svg'  alt="End call svg" width={50} height={50}/>    
        </button>
 }
 export default function Home(){

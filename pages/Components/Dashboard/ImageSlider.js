@@ -1,6 +1,6 @@
  import { useState } from "react";
  import Image from "next/image";
-const ImageSlider=()=>{
+export default ()=>{
     const [index,setIndex]=useState(0);
     const leftSlide=()=>index>0?setIndex(index-1):0;
     const rightSlide=()=>index<2?setIndex(index+1):0;
@@ -86,5 +86,3 @@ const ImageSlider=()=>{
      </div>
     );
 }
-
-export default ImageSlider;
