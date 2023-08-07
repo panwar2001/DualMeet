@@ -101,6 +101,3 @@ return <button onClick={() => slideClass=== "slide click" ? setSlideClass("slide
             <Image src='/group.svg'  alt="End call svg" width={50} height={50}/>    
        </button>
 }
-export default function Home(){
-  return <></>
-}
