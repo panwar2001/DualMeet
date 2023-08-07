@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Logout from '../GoogleAuth/logout';
 import styles from './NavigationBar.module.css';
-export default ()=>(
+const NavigationBar=()=>(
 <div className={styles.headerRowAlign}>
 <Image src='cam.svg' alt="CamRecorder" height={40} width={70} />
 <b className={styles.dualmeet}>DualMeet</b>
@@ -10,3 +10,4 @@ export default ()=>(
 </div>
 </div>
 );
+export default NavigationBar;

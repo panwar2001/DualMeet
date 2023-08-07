@@ -1,7 +1,8 @@
 import styles from "./BrandFootage.module.css";
-export default ()=>(
+const BrandFootage=()=>(
       <video  autoPlay className={styles.footage} muted>
           <source src="Presenting.mp4" type="video/mp4" ></source>
            Your Browser does not support video tag.
       </video>
 );
+export default BrandFootage;

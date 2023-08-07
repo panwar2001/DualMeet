@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./JoinMeeting.module.css";
-export default ()=>{
+const JoinMeeting=()=>{
   const [MeetingId,setMeetingId]=useState('');
   const router=useRouter();
   const Meeting=()=>{
@@ -41,3 +41,4 @@ export default ()=>{
      </div>   
     </>;
 }
+export default JoinMeeting;
