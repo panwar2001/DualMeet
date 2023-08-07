@@ -1,17 +1,15 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import { AccessToken } from 'livekit-server-sdk';
-import type { AccessTokenOptions, VideoGrant } from 'livekit-server-sdk';
 
 const apiKey = process.env.LK_API_KEY;
 const apiSecret = process.env.LK_API_SECRET;
 
-const createToken = (userInfo: AccessTokenOptions, grant: VideoGrant) => {
+const createToken = (userInfo, grant) => {
   const at = new AccessToken(apiKey, apiSecret, userInfo);
   at.addGrant(grant);
   return at.toJwt();
 };
 
-export default async function handleToken(req: NextApiRequest, res: NextApiResponse) {
+export default async function handleToken(req, res) {
   try {
     const { roomName, identity, name, metadata } = req.query;
     if (typeof identity !== 'string') {
@@ -28,7 +26,7 @@ export default async function handleToken(req: NextApiRequest, res: NextApiRespo
       throw Error('provide max one metadata string');
     }
 
-    const grant: VideoGrant = {
+    const grant = {
       room: roomName,
       roomJoin: true,
       canPublish: true,
@@ -36,10 +34,9 @@ export default async function handleToken(req: NextApiRequest, res: NextApiRespo
       canSubscribe: true,
     };
     const token = createToken({ identity, name, metadata }, grant);
-
     res.status(200).json({ identity, accessToken: token });
   } catch (e) {
-    res.statusMessage = (e as Error).message;
+    res.statusMessage = (e).message;
     res.status(500).end();
   }
 }
