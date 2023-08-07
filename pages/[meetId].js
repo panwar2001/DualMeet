@@ -2,7 +2,6 @@
 import { useRouter} from 'next/router';
 import NavigationBar from './Components/MeetNow/NavigationBar';
 import Copy from './Components/MeetNow/Copy';
-import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRef } from 'react';
@@ -13,11 +12,10 @@ const MeetingLink=()=>{
 const router=useRouter();
 const meetId=router.query.meetId;
 const [name,setName]=useState('');
-const [videoPlaying, setVideoPlaying] = useState(true);
-const [audioPlaying,setAudioPlaying] = useState(true);
+const [videoPlaying, setVideoPlaying] = useState(false);
+const [audioPlaying,setAudioPlaying] = useState(false);
 const { data: session, status } = useSession();
 const localVideoRef = useRef();
-const [stream, setStream] = useState(null);
   const styleCamera={
     borderRadius:'50%',
     backgroundColor:videoPlaying?'transparent':'red',
@@ -30,42 +28,19 @@ const [stream, setStream] = useState(null);
     cursor:'pointer'
 
 }
-
-
-  const getVideoMedia = async () => {
-    try {
-      const localStream = await navigator.mediaDevices.getUserMedia({ audio:true, video: {
-        width: { min: 1024, ideal: 1280, max: 1920 },
-        height: { min: 576, ideal: 720, max: 1080 },
-      },});
-      setStream(localStream);
-      localVideoRef.current.srcObject=localStream;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const AudioMedia = () => {
-      stream.getAudioTracks().forEach((track) => {
-        track.enabled=audioPlaying^true;
-      });
-      setAudioPlaying(audioPlaying^true);
-      localVideoRef.current.srcObject=stream;
-  };
-
-  const VideoMedia=()=>{
-    
+  const VideoMedia=()=>{    
     if(videoPlaying){
-       localVideoRef.current.srcObject=null;
+       const stream=localVideoRef.current.srcObject;
        stream.getVideoTracks().forEach((track) =>track.stop());
+       localVideoRef.current.srcObject=null;
       }
    else{
-     navigator.mediaDevices.getUserMedia({ audio:true, video: {
+     navigator.mediaDevices.getUserMedia({ audio:false, video: {
         width: { min: 1024, ideal: 1280, max: 1920 },
         height: { min: 576, ideal: 720, max: 1080 },
       },}).then((stream)=>{
-        setStream(stream);
         localVideoRef.current.srcObject=stream;    
-      })
+      }).catch((error)=>console.error(error));
    }
     setVideoPlaying(videoPlaying^true);
   }
@@ -79,19 +54,9 @@ const handleJoin=()=>{
     }
     router.push({
       pathname:'./Components/DualMeet/DualMeet',
-      query: {name:name},
+      query: {name:name,meetId:meetId},
     }, `/${meetId}`);
 }
-useEffect(()=>{
-  getVideoMedia()
-  return ()=>{    
-    if(stream){
-    stream.getVideoTracks().forEach((track) =>track.stop());
-    setStream(null);
-    }
-  }
-},[]);
-  
 return (<>
     <NavigationBar email={session?.user?.email} image={session?.user?.image}/>
     <Copy text={meetId}/>
@@ -104,7 +69,7 @@ return (<>
                     <Image src={videoPlaying?'/cameraON.svg':'/cameraOFF.svg'} alt="Web cam svg" width={50} height={50}/>
                   </button>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   <button onClick={() => AudioMedia()} style={styleMicrophone}>
+                   <button  onClick={()=>setAudioPlaying(audioPlaying^true)} style={styleMicrophone}>
                      <Image src={audioPlaying?'/microphoneOn.svg':'/microphoneOff.svg'} alt="Microphone svg" width={50} height={50}/>   
                    </button> 
               </div>

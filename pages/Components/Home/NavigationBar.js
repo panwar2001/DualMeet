@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Login from "../GoogleAuth/Login";
 import { useRouter } from 'next/router';
 import styles from './NavigationBar.module.css';
-export default ()=>{
+const NavigationBar= ()=>{
 const router=useRouter();
 const Meeting=()=>{
   router.push(`/${Date.now().toString(16)}`);
@@ -21,3 +21,5 @@ return <div className={styles.headerRowAlign}>
 </div>
 </div>
 };
+
+export default NavigationBar;

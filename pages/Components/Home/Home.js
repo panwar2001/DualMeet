@@ -4,9 +4,11 @@ import JoinMeeting from './JoinMeeting';
 import Image from 'next/image';
 import styles from './Home.module.css';
 
-export default ()=><>
+const Home=()=><>
               <NavigationBar/>
               <BrandFootage/>
               <Image src="/meeting.png" alt="Group meeting!" height={500} width={700} className={styles.ImageStyle}/>
               <JoinMeeting/>
               </>  
+
+export default Home;

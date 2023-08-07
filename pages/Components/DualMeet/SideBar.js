@@ -20,6 +20,7 @@ export  const SideBar = ({names=[],slideClass,setSlideClass}) => {
         width:'100%',
         display:'flex'
     }
+    
     const handleChange=(e)=>{
         key=0;
         setInputName(e.target.value.trim());
@@ -92,6 +93,7 @@ export  const SideBar = ({names=[],slideClass,setSlideClass}) => {
 };
 
 
+export default SideBar;
 
 export const SideBarButton=({slideClass,setSlideClass})=>{
   const styleButton={
@@ -100,7 +102,4 @@ export const SideBarButton=({slideClass,setSlideClass})=>{
 return <button onClick={() => slideClass=== "slide click" ? setSlideClass("slide") : setSlideClass("slide click")} style={styleButton}>
             <Image src='/group.svg'  alt="End call svg" width={50} height={50}/>    
        </button>
-}
-export default function Home(){
-  return <></>
 }

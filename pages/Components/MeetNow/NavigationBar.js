@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Login from "../GoogleAuth/Login";
 import Logout from '../GoogleAuth/logout';
 import styles from "./NavigationBar.module.css";
- export default ({email,image}) => {
+ const NavigationBar=({email,image}) => {
         return <div className={styles.joinStyle}>
               <Image src='/cam.svg' alt="CamRecorder" height={40} width={70} />
                <b >DualMeet</b>
@@ -19,3 +19,4 @@ import styles from "./NavigationBar.module.css";
               </div>
           </div>
 }
+export default NavigationBar;

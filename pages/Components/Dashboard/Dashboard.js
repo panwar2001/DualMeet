@@ -7,7 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./Dashboard.module.css";
 
-export default ()=>{
+const Dashboard=()=>{
   const [MeetingId,setMeetingId]=useState('');
   const generateUniqueId=()=>{
     const time=Date.now();
@@ -54,4 +54,4 @@ export default ()=>{
             </div>
       </>
   }
-  
+  export default Dashboard;
