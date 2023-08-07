@@ -16,7 +16,7 @@ export const useDebugMode = ({ logLevel }) => {
       // @ts-expect-error
       window.__lk_room = undefined;
     };
-  },[]);
+  },[room]);
 };
 
 export const DebugMode = ({ logLevel }) => {
