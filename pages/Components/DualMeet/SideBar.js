@@ -20,6 +20,7 @@ export  const SideBar = ({names=[],slideClass,setSlideClass}) => {
         width:'100%',
         display:'flex'
     }
+    
     const handleChange=(e)=>{
         key=0;
         setInputName(e.target.value.trim());
@@ -92,6 +93,7 @@ export  const SideBar = ({names=[],slideClass,setSlideClass}) => {
 };
 
 
+export default SideBar;
 
 export const SideBarButton=({slideClass,setSlideClass})=>{
   const styleButton={
