@@ -11,9 +11,6 @@ const DualMeet=()=>{
       name: router.query.name,
     },
   }); 
-  const handleDisconnect = () => {
-    router.replace('/'+router.query.meetId);
-  };
   if (token === "") {
     return <Loader/>
   }
@@ -23,7 +20,6 @@ const DualMeet=()=>{
       video={true}
       audio={true}
       connect={true}
-      onDisconnected={()=>handleDisconnect()}
       token={token}
       serverUrl={process.env.NEXT_PUBLIC_LK_SERVER_URL}
     >
