@@ -16,7 +16,7 @@ export const useDebugMode = ({ logLevel }) => {
       // @ts-expect-error
       window.__lk_room = undefined;
     };
-  }, []);
+  },[]);
 };
 
 export const DebugMode = ({ logLevel }) => {
@@ -204,7 +204,7 @@ export const DebugMode = ({ logLevel }) => {
   }
 };
 
-function trackStatus(t) {
+export default function trackStatus(t) {
   if (t.isSubscribed) {
     return t.isEnabled ? 'enabled' : 'disabled';
   } else {
