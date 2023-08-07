@@ -5,8 +5,7 @@ import {useToken, LiveKitRoom, VideoConference,DisconnectButton} from "@livekit/
 import "@livekit/components-styles";
 const DualMeet=()=>{
   const router=useRouter();
-  const room = router.query.meetId;
-  const token = useToken(process.env.NEXT_PUBLIC_LK_TOKEN_ENDPOINT, room, {
+  const token = useToken(process.env.NEXT_PUBLIC_LK_TOKEN_ENDPOINT, router.query.meetId, {
     userInfo: {
       identity: 'user',
       name: router.query.name,
@@ -24,7 +23,7 @@ const DualMeet=()=>{
       video={true}
       audio={true}
       connect={true}
-      onDisconnected={handleDisconnect}
+      onDisconnected={()=>handleDisconnect()}
       token={token}
       serverUrl={process.env.NEXT_PUBLIC_LK_SERVER_URL}
     >

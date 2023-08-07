@@ -14,7 +14,6 @@ const createToken = (userInfo: AccessTokenOptions, grant: VideoGrant) => {
 export default async function handleToken(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { roomName, identity, name, metadata } = req.query;
-
     if (typeof identity !== 'string') {
       throw Error('provide one (and only one) identity');
     }
